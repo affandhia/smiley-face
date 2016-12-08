@@ -1,0 +1,30 @@
+<ASSEMBLER_INFO>
+ <VERSION>2.1.12</VERSION>
+ <DEVICE>ATmega8515</DEVICE>
+ <WORKING_DIR>D:\My Documents\tugasakhir</WORKING_DIR>
+ <INCLUDE_PATH>
+  <DIR>C:\Program Files (x86)\Atmel\AVR Tools\AvrAssembler2\Appnotes</DIR>
+ </INCLUDE_PATH>
+ <SOURCE_FILE>D:\My Documents\tugasakhir\tugasakhir.asm</SOURCE_FILE>
+ <INCLUDED_FILES>
+  <FILE>C:\Program Files (x86)\Atmel\AVR Tools\AvrAssembler2\Appnotes\m8515def.inc</FILE>
+ </INCLUDED_FILES>
+ <OBJECT_FILES>
+  <FILE>D:\My Documents\tugasakhir\tugasakhir.obj</FILE>
+ </OBJECT_FILES>
+ <HEX_FILES>
+  <FILE>D:\My Documents\tugasakhir\tugasakhir.hex</FILE>
+ </HEX_FILES>
+ <OUTPUT_FILES>
+  <FILE>D:\My Documents\tugasakhir\tugasakhir.map</FILE>
+ </OUTPUT_FILES>
+ <LABELS>
+  <INIT><FILE>D:\My Documents\tugasakhir\tugasakhir.asm</FILE><LINE>107</LINE></INIT>
+  <WAIT><FILE>D:\My Documents\tugasakhir\tugasakhir.asm</FILE><LINE>12</LINE></WAIT>
+  <CONT><FILE>D:\My Documents\tugasakhir\tugasakhir.asm</FILE><LINE>16</LINE></CONT>
+  <READ_BUTTON><FILE>D:\My Documents\tugasakhir\tugasakhir.asm</FILE><LINE>26</LINE></READ_BUTTON>
+  <TEST_LED><FILE>D:\My Documents\tugasakhir\tugasakhir.asm</FILE><LINE>33</LINE></TEST_LED>
+  <TEST_LED2><FILE>D:\My Documents\tugasakhir\tugasakhir.asm</FILE><LINE>68</LINE></TEST_LED2>
+  <MAIN><FILE>D:\My Documents\tugasakhir\tugasakhir.asm</FILE><LINE>120</LINE></MAIN>
+ </LABELS>
+</ASSEMBLER_INFO>
