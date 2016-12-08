@@ -1,5 +1,3 @@
-
-
 .include "m8515def.inc"
 .def sem =r18 
 .def button = r19
