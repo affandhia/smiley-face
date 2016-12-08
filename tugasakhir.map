@@ -1,5 +1,5 @@
 
-AVRASM ver. 2.1.12  D:\My Documents\tugasakhir\tugasakhir.asm Wed Nov 16 16:16:08 2016
+AVRASM ver. 2.1.12  D:\My Documents\tugasakhir\homescreen.asm Fri Dec 09 03:12:49 2016
 
 
 EQU  SIGNATURE_000 0000001e
@@ -471,12 +471,16 @@ EQU  OC0addr      0000000e
 EQU  ERDYaddr     0000000f
 EQU  SPMRaddr     00000010
 EQU  INT_VECTORS_SIZE 00000011
-DEF  sem          r18
-DEF  button       r19
-CSEG INIT         00000041
-CSEG WAIT         00000001
-CSEG CONT         00000004
-CSEG READ_BUTTON  0000000b
-CSEG TEST_LED     0000000f
-CSEG TEST_LED2    00000028
-CSEG MAIN         00000049
+DEF  temp         r16
+DEF  EW           r17
+DEF  PB           r18
+DEF  A            r19
+CSEG START        00000000
+CSEG INIT_LCD     0000001c
+CSEG message      0000003d
+CSEG LOADBYTE     0000000a
+CSEG QUIT         00000011
+CSEG WRITE_TEXT   00000037
+CSEG WAIT_LCD     00000012
+CSEG CONT         00000015
+CSEG CLEAR_LCD    00000030
