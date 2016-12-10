@@ -52,15 +52,15 @@
             <left>4294967292</left>
          </Position>
          <Config index="0">
-            <Name>Box 1</Name>
+            <Name>First Box</Name>
             <PortPin>
-               <Port>PORTD</Port>
+               <Port>PORTE</Port>
                <Bit>0</Bit>
             </PortPin>
             <Invert>0</Invert>
          </Config>
          <Config index="1">
-            <Name>Box 2</Name>
+            <Name>Second Box</Name>
             <PortPin>
                <Port>PORTD</Port>
                <Bit>1</Bit>
@@ -68,7 +68,7 @@
             <Invert>0</Invert>
          </Config>
          <Config index="2">
-            <Name>Box 3</Name>
+            <Name>Third Box</Name>
             <PortPin>
                <Port>PORTD</Port>
                <Bit>2</Bit>
@@ -96,7 +96,7 @@
             <Color>Blue</Color>
             <Name>Timer</Name>
             <PortPin>
-               <Port></Port>
+               <Port>PORTC</Port>
                <Bit>0</Bit>
             </PortPin>
             <Invert>0</Invert>
@@ -105,7 +105,7 @@
             <Color>Green</Color>
             <Name></Name>
             <PortPin>
-               <Port></Port>
+               <Port>PORTC</Port>
                <Bit>1</Bit>
             </PortPin>
             <Invert>0</Invert>
@@ -114,7 +114,7 @@
             <Color>Green</Color>
             <Name></Name>
             <PortPin>
-               <Port></Port>
+               <Port>PORTC</Port>
                <Bit>2</Bit>
             </PortPin>
             <Invert>0</Invert>
@@ -123,7 +123,7 @@
             <Color>Yellow</Color>
             <Name></Name>
             <PortPin>
-               <Port></Port>
+               <Port>PORTC</Port>
                <Bit>3</Bit>
             </PortPin>
             <Invert>0</Invert>
@@ -132,7 +132,7 @@
             <Color>Yellow</Color>
             <Name></Name>
             <PortPin>
-               <Port></Port>
+               <Port>PORTC</Port>
                <Bit>4</Bit>
             </PortPin>
             <Invert>0</Invert>
@@ -141,7 +141,7 @@
             <Color>Yellow</Color>
             <Name></Name>
             <PortPin>
-               <Port></Port>
+               <Port>PORTC</Port>
                <Bit>5</Bit>
             </PortPin>
             <Invert>0</Invert>
@@ -150,7 +150,7 @@
             <Color>Red</Color>
             <Name></Name>
             <PortPin>
-               <Port></Port>
+               <Port>PORTC</Port>
                <Bit>6</Bit>
             </PortPin>
             <Invert>0</Invert>
@@ -159,7 +159,7 @@
             <Color>Red</Color>
             <Name></Name>
             <PortPin>
-               <Port></Port>
+               <Port>PORTC</Port>
                <Bit>7</Bit>
             </PortPin>
             <Invert>0</Invert>

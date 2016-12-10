@@ -1,5 +1,7 @@
 .include "m8515def.inc"
 
+.def gameStarted = r15
+.def smileyBox = r14 ; --> means on box 3
 .def temp =r16 ; Define temporary variable
 .def EW = r17 ; for PORTA
 .def PB = r18 ; for PORTB
@@ -14,7 +16,11 @@
 	rjmp START
 .org 0x002
 	rcall EN_INT
-	rjmp START
+	tst gameStarted
+	brne START
+	ldi temp, 1
+	mov gameStarted, temp
+	rjmp GAME_START
 .org 0x00D
 	rjmp START
 
@@ -27,10 +33,17 @@ START:
 	rcall INIT_LCD
 	rcall INIT_LEDs
 	rcall EN_INT
+	
+	ldi temp, 0
+	mov gameStarted, temp	
+	ldi temp, 3
+	mov smileyBox, temp	
 
 	ldi temp,$ff
 	out DDRA,temp ; Set port A as output
 	out DDRB,temp ; Set port B as output
+	ldi TEMP,$00
+	out DDRD,TEMP	;set PIN D TO READ
 
 	ldi ZH,high(2*message) ; Load high part of byte address into ZH
 	ldi ZL,low(2*message) ; Load low part of byte address into ZL
@@ -42,14 +55,28 @@ LOADBYTE:
 	breq quit		; If so, quit
 	cpi r20, 0x2C	; Check if we've met a comma char
 	breq CHANGE
+
+	ldi temp, 1
+	cp gameStarted, temp
+	breq PREP_PRINT_BOX
 	cpi r20, $2E
 	breq PRINT_SMILEY
+PREP_PRINT_BOX:
+	cpi r20, $2E
+	breq PRINT_BOX
 	mov A, r20		; Put the character onto Port B
 	rcall WRITE_TEXT
 	adiw ZL,1		; Increase Z registers
-	brne LOADBYTE	
+	brne LOADBYTE
+		
 PRINT_SMILEY:
 	ldi A, $C2
+	rcall WRITE_TEXT
+	adiw ZL,1		; Increase Z registers
+	brne LOADBYTE
+
+PRINT_BOX:
+	ldi A, $DB
 	rcall WRITE_TEXT
 	adiw ZL,1		; Increase Z registers
 	brne LOADBYTE	
@@ -65,7 +92,19 @@ CHANGE:
 	rjmp LOADBYTE
 
 QUIT: 
+	ldi temp, 0
+	cp gameStarted, temp
+	breq QUIT
+	in temp, PIND
+	cpi temp, 0x01
+	breq START
 	rjmp QUIT
+
+GAME_START:
+	rcall INIT_LCD
+	ldi ZH,high(2*gamescreen) ; Load high part of byte address into ZH
+	ldi ZL,low(2*gamescreen) ; Load low part of byte address into ZL
+	rjmp LOADBYTE	
 
 EN_INT: ;enable intterupt
 	ldi temp, 0b10000000  ;1<<INT0 | 1<<INT1 | 1<<INT2
@@ -152,4 +191,8 @@ WRITE_TEXT_NO_DELAY:
 
 message:
 	.db "Find The Smiley,. Press  Start ."
+	.db 0
+	
+gamescreen:
+	.db "Which's box?,  .    .    .  "
 	.db 0

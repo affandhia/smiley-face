@@ -19,20 +19,24 @@
   <FILE>D:\My Documents\tugasakhir\tugasakhir.map</FILE>
  </OUTPUT_FILES>
  <LABELS>
-  <START><FILE>D:\My Documents\tugasakhir\homescreen.asm</FILE><LINE>21</LINE></START>
-  <EN_INT><FILE>D:\My Documents\tugasakhir\homescreen.asm</FILE><LINE>70</LINE></EN_INT>
-  <INIT_LCD><FILE>D:\My Documents\tugasakhir\homescreen.asm</FILE><LINE>107</LINE></INIT_LCD>
-  <INIT_LEDs><FILE>D:\My Documents\tugasakhir\homescreen.asm</FILE><LINE>96</LINE></INIT_LEDs>
-  <message><FILE>D:\My Documents\tugasakhir\homescreen.asm</FILE><LINE>153</LINE></message>
-  <LOADBYTE><FILE>D:\My Documents\tugasakhir\homescreen.asm</FILE><LINE>38</LINE></LOADBYTE>
-  <quit><FILE>D:\My Documents\tugasakhir\homescreen.asm</FILE><LINE>67</LINE></quit>
-  <CHANGE><FILE>D:\My Documents\tugasakhir\homescreen.asm</FILE><LINE>57</LINE></CHANGE>
-  <PRINT_SMILEY><FILE>D:\My Documents\tugasakhir\homescreen.asm</FILE><LINE>51</LINE></PRINT_SMILEY>
-  <WRITE_TEXT><FILE>D:\My Documents\tugasakhir\homescreen.asm</FILE><LINE>138</LINE></WRITE_TEXT>
-  <WAIT_LCD><FILE>D:\My Documents\tugasakhir\homescreen.asm</FILE><LINE>83</LINE></WAIT_LCD>
-  <CONT><FILE>D:\My Documents\tugasakhir\homescreen.asm</FILE><LINE>87</LINE></CONT>
-  <CLEAR_LEDs><FILE>D:\My Documents\tugasakhir\homescreen.asm</FILE><LINE>101</LINE></CLEAR_LEDs>
-  <CLEAR_LCD><FILE>D:\My Documents\tugasakhir\homescreen.asm</FILE><LINE>129</LINE></CLEAR_LCD>
-  <WRITE_TEXT_NO_DELAY><FILE>D:\My Documents\tugasakhir\homescreen.asm</FILE><LINE>146</LINE></WRITE_TEXT_NO_DELAY>
+  <START><FILE>D:\My Documents\tugasakhir\homescreen.asm</FILE><LINE>27</LINE></START>
+  <EN_INT><FILE>D:\My Documents\tugasakhir\homescreen.asm</FILE><LINE>109</LINE></EN_INT>
+  <GAME_START><FILE>D:\My Documents\tugasakhir\homescreen.asm</FILE><LINE>103</LINE></GAME_START>
+  <INIT_LCD><FILE>D:\My Documents\tugasakhir\homescreen.asm</FILE><LINE>146</LINE></INIT_LCD>
+  <INIT_LEDs><FILE>D:\My Documents\tugasakhir\homescreen.asm</FILE><LINE>135</LINE></INIT_LEDs>
+  <message><FILE>D:\My Documents\tugasakhir\homescreen.asm</FILE><LINE>192</LINE></message>
+  <LOADBYTE><FILE>D:\My Documents\tugasakhir\homescreen.asm</FILE><LINE>51</LINE></LOADBYTE>
+  <quit><FILE>D:\My Documents\tugasakhir\homescreen.asm</FILE><LINE>94</LINE></quit>
+  <CHANGE><FILE>D:\My Documents\tugasakhir\homescreen.asm</FILE><LINE>84</LINE></CHANGE>
+  <PREP_PRINT_BOX><FILE>D:\My Documents\tugasakhir\homescreen.asm</FILE><LINE>64</LINE></PREP_PRINT_BOX>
+  <PRINT_SMILEY><FILE>D:\My Documents\tugasakhir\homescreen.asm</FILE><LINE>72</LINE></PRINT_SMILEY>
+  <PRINT_BOX><FILE>D:\My Documents\tugasakhir\homescreen.asm</FILE><LINE>78</LINE></PRINT_BOX>
+  <WRITE_TEXT><FILE>D:\My Documents\tugasakhir\homescreen.asm</FILE><LINE>177</LINE></WRITE_TEXT>
+  <WAIT_LCD><FILE>D:\My Documents\tugasakhir\homescreen.asm</FILE><LINE>122</LINE></WAIT_LCD>
+  <gamescreen><FILE>D:\My Documents\tugasakhir\homescreen.asm</FILE><LINE>196</LINE></gamescreen>
+  <CONT><FILE>D:\My Documents\tugasakhir\homescreen.asm</FILE><LINE>126</LINE></CONT>
+  <CLEAR_LEDs><FILE>D:\My Documents\tugasakhir\homescreen.asm</FILE><LINE>140</LINE></CLEAR_LEDs>
+  <CLEAR_LCD><FILE>D:\My Documents\tugasakhir\homescreen.asm</FILE><LINE>168</LINE></CLEAR_LCD>
+  <WRITE_TEXT_NO_DELAY><FILE>D:\My Documents\tugasakhir\homescreen.asm</FILE><LINE>185</LINE></WRITE_TEXT_NO_DELAY>
  </LABELS>
 </ASSEMBLER_INFO>
