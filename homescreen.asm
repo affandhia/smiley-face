@@ -45,6 +45,8 @@ START:
 	mov gameStarted, temp
 	mov score, temp
 	ldi boxCounter, 0 ; for box counter
+	ldi temp, 2
+	mov boxLeft, temp
 	
 	ldi temp,$ff
 	out DDRA,temp ; Set port A as output
@@ -153,6 +155,8 @@ NOT_FALSE:
 	rjmp START
 NOT_OVER:
 	ldi temp, 0
+	cp boxLeft, temp
+	breq GAME_OVER
 	cp gameStarted, temp
 	breq WAIT
 	in temp, PIND
@@ -225,13 +229,16 @@ GAME_START:
 	rcall INIT_LCD
 	ldi ZH,high(2*gamescreen) ; Load high part of byte address into ZH
 	ldi ZL,low(2*gamescreen) ; Load low part of byte address into ZL
-	ldi temp, 1
-	mov boxLeft, temp ; for box counter
+	ldi temp, 2 ; bug: it gives 1 to temp register
+	ldi A, 2  ; but on this A register, it gives 2, so we use this one
+	mov boxLeft, A ; for box counter
 	rjmp LOADBYTE
 
 FALSE_ANSWER:
 	ldi temp, 3
 	mov gameStarted, temp
+	ldi temp, 1
+	sub boxLeft, temp
 	rcall INIT_LCD
 	ldi ZH,high(2*gamemissedbox) ; Load high part of byte address into ZH
 	ldi ZL,low(2*gamemissedbox) ; Load low part of byte address into ZL
@@ -251,8 +258,8 @@ EN_INT: ;enable intterupt
 
 WAIT_LCD:
 	ldi r20, 1
-	ldi r21, 1
-	ldi r22, 1
+	ldi r21, 25
+	ldi r22, 25
 CONT: 
 	dec r22
 	brne CONT
@@ -320,7 +327,7 @@ WRITE_TEXT_NO_DELAY:
 	ret
 
 message:
-	.db "Find The Smiley,. Press  Start ."
+	.db "Find The Smiley!,. Press  Start ."
 	.db 0
 	
 gamescreen:
@@ -328,11 +335,11 @@ gamescreen:
 	.db 0
 
 gameoverscreen:
-	.db "Game Over, You Lose!"
+	.db "Game Over,   ___You LOSE!"
 	.db 0
 
 gamemissedbox:
-	.db "Oh No! WRONG BOX,try again!"
+	.db "Oh No! WRONG BOX,    Try Again!"
 	.db 0
 
 gamewinscreen:
