@@ -76,18 +76,18 @@ LOADBYTE:
 QUIT:	rjmp QUIT
 	SEI 
 	CALL    START_TIMER	  
+4
+	CALL 	GET_ASCII
+	mov 	A, r24		; Put the character onto Port B
+	rcall 	WRITE_TEXT
+	ldi 	r24, 0
 NEED_UPDATE:	
 	CALL    PAD_UPDATE
 	CALL    PAD_PRESS
 	TST     R24  
 	BREQ    NEED_UPDATE ;PC-0x05
 	CALL    PAD_READ
-	OUT     PORTA,R24
-	CALL 	GET_ASCII
-	mov 	A, r24		; Put the character onto Port B
-	rcall 	WRITE_TEXT
-	ldi 	r24, 0
-
+	OUT     PORTA,R2
 	RJMP    NEED_UPDATE 
 
 PAD_READ:

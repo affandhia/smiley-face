@@ -12,3 +12,11 @@ AvrBuild.bat
 !spec/*.hex
 !spec/*.map
 !spec/*.obj
+
+tugasakhirexp.aps
+tugasakhirexp.asm
+tugasakhirexp.aws
+tugasakhirexp.hex
+tugasakhirexp.map
+tugasakhirexp.obj
+labels.tmp
