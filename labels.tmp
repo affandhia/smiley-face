@@ -1,0 +1,86 @@
+<ASSEMBLER_INFO>
+ <VERSION>2.1.12</VERSION>
+ <DEVICE>ATmega16</DEVICE>
+ <WORKING_DIR>D:\My Documents\tugasakhirexp</WORKING_DIR>
+ <INCLUDE_PATH>
+  <DIR>C:\Program Files (x86)\Atmel\AVR Tools\AvrAssembler2\Appnotes</DIR>
+ </INCLUDE_PATH>
+ <SOURCE_FILE>D:\My Documents\tugasakhirexp\keypadscele.asm</SOURCE_FILE>
+ <INCLUDED_FILES>
+  <FILE>C:\Program Files (x86)\Atmel\AVR Tools\AvrAssembler2\Appnotes\m16def.inc</FILE>
+ </INCLUDED_FILES>
+ <OBJECT_FILES>
+  <FILE>D:\My Documents\tugasakhirexp\tugasakhirexp.obj</FILE>
+ </OBJECT_FILES>
+ <HEX_FILES>
+  <FILE>D:\My Documents\tugasakhirexp\tugasakhirexp.hex</FILE>
+ </HEX_FILES>
+ <OUTPUT_FILES>
+  <FILE>D:\My Documents\tugasakhirexp\tugasakhirexp.map</FILE>
+ </OUTPUT_FILES>
+ <LABELS>
+  <RESET><FILE>D:\My Documents\tugasakhirexp\keypadscele.asm</FILE><LINE>16</LINE></RESET>
+  <INIT><FILE>D:\My Documents\tugasakhirexp\keypadscele.asm</FILE><LINE>22</LINE></INIT>
+  <SERV_ROUTINE><FILE>D:\My Documents\tugasakhirexp\keypadscele.asm</FILE><LINE>238</LINE></SERV_ROUTINE>
+  <GOTORESET><FILE>D:\My Documents\tugasakhirexp\keypadscele.asm</FILE><LINE>53</LINE></GOTORESET>
+  <SKIP><FILE>D:\My Documents\tugasakhirexp\keypadscele.asm</FILE><LINE>37</LINE></SKIP>
+  <CONT><FILE>D:\My Documents\tugasakhirexp\keypadscele.asm</FILE><LINE>48</LINE></CONT>
+  <LOOP><FILE>D:\My Documents\tugasakhirexp\keypadscele.asm</FILE><LINE>45</LINE></LOOP>
+  <MAIN><FILE>D:\My Documents\tugasakhirexp\keypadscele.asm</FILE><LINE>55</LINE></MAIN>
+  <INIT_LCD><FILE>D:\My Documents\tugasakhirexp\keypadscele.asm</FILE><LINE>505</LINE></INIT_LCD>
+  <CLEAR_LCD><FILE>D:\My Documents\tugasakhirexp\keypadscele.asm</FILE><LINE>526</LINE></CLEAR_LCD>
+  <START_TIMER><FILE>D:\My Documents\tugasakhirexp\keypadscele.asm</FILE><LINE>228</LINE></START_TIMER>
+  <NEED_UPDATE><FILE>D:\My Documents\tugasakhirexp\keypadscele.asm</FILE><LINE>80</LINE></NEED_UPDATE>
+  <PAD_UPDATE><FILE>D:\My Documents\tugasakhirexp\keypadscele.asm</FILE><LINE>103</LINE></PAD_UPDATE>
+  <PAD_PRESS><FILE>D:\My Documents\tugasakhirexp\keypadscele.asm</FILE><LINE>98</LINE></PAD_PRESS>
+  <PAD_READ><FILE>D:\My Documents\tugasakhirexp\keypadscele.asm</FILE><LINE>94</LINE></PAD_READ>
+  <GET_ASCII><FILE>D:\My Documents\tugasakhirexp\keypadscele.asm</FILE><LINE>544</LINE></GET_ASCII>
+  <WRITE_TEXT><FILE>D:\My Documents\tugasakhirexp\keypadscele.asm</FILE><LINE>535</LINE></WRITE_TEXT>
+  <STROBE0><FILE>D:\My Documents\tugasakhirexp\keypadscele.asm</FILE><LINE>118</LINE></STROBE0>
+  <THIS><FILE>D:\My Documents\tugasakhirexp\keypadscele.asm</FILE><LINE>126</LINE></THIS>
+  <BFORE><FILE>D:\My Documents\tugasakhirexp\keypadscele.asm</FILE><LINE>123</LINE></BFORE>
+  <TIMER_GET><FILE>D:\My Documents\tugasakhirexp\keypadscele.asm</FILE><LINE>308</LINE></TIMER_GET>
+  <PROCLDI><FILE>D:\My Documents\tugasakhirexp\keypadscele.asm</FILE><LINE>169</LINE></PROCLDI>
+  <GOCPI><FILE>D:\My Documents\tugasakhirexp\keypadscele.asm</FILE><LINE>137</LINE></GOCPI>
+  <GOLDS><FILE>D:\My Documents\tugasakhirexp\keypadscele.asm</FILE><LINE>172</LINE></GOLDS>
+  <TIMER_EXPIRED><FILE>D:\My Documents\tugasakhirexp\keypadscele.asm</FILE><LINE>330</LINE></TIMER_EXPIRED>
+  <TIMER_RESET><FILE>D:\My Documents\tugasakhirexp\keypadscele.asm</FILE><LINE>277</LINE></TIMER_RESET>
+  <DCR><FILE>D:\My Documents\tugasakhirexp\keypadscele.asm</FILE><LINE>156</LINE></DCR>
+  <PADSTATE2><FILE>D:\My Documents\tugasakhirexp\keypadscele.asm</FILE><LINE>167</LINE></PADSTATE2>
+  <CASEx><FILE>D:\My Documents\tugasakhirexp\keypadscele.asm</FILE><LINE>365</LINE></CASEx>
+  <B4RET><FILE>D:\My Documents\tugasakhirexp\keypadscele.asm</FILE><LINE>225</LINE></B4RET>
+  <GO_CPI><FILE>D:\My Documents\tugasakhirexp\keypadscele.asm</FILE><LINE>208</LINE></GO_CPI>
+  <GOSUBI><FILE>D:\My Documents\tugasakhirexp\keypadscele.asm</FILE><LINE>220</LINE></GOSUBI>
+  <LENGTHREC><FILE>D:\My Documents\tugasakhirexp\keypadscele.asm</FILE><LINE>286</LINE></LENGTHREC>
+  <NOTDONE><FILE>D:\My Documents\tugasakhirexp\keypadscele.asm</FILE><LINE>302</LINE></NOTDONE>
+  <GOSTD><FILE>D:\My Documents\tugasakhirexp\keypadscele.asm</FILE><LINE>304</LINE></GOSTD>
+  <TIM1><FILE>D:\My Documents\tugasakhirexp\keypadscele.asm</FILE><LINE>320</LINE></TIM1>
+  <TIM0><FILE>D:\My Documents\tugasakhirexp\keypadscele.asm</FILE><LINE>325</LINE></TIM0>
+  <STOPWATCH_GET><FILE>D:\My Documents\tugasakhirexp\keypadscele.asm</FILE><LINE>377</LINE></STOPWATCH_GET>
+  <CONT1><FILE>D:\My Documents\tugasakhirexp\keypadscele.asm</FILE><LINE>407</LINE></CONT1>
+  <STOPWATCH_CHECK><FILE>D:\My Documents\tugasakhirexp\keypadscele.asm</FILE><LINE>427</LINE></STOPWATCH_CHECK>
+  <CONT3><FILE>D:\My Documents\tugasakhirexp\keypadscele.asm</FILE><LINE>461</LINE></CONT3>
+  <CONT4><FILE>D:\My Documents\tugasakhirexp\keypadscele.asm</FILE><LINE>449</LINE></CONT4>
+  <CONT2><FILE>D:\My Documents\tugasakhirexp\keypadscele.asm</FILE><LINE>464</LINE></CONT2>
+  <DELAY><FILE>D:\My Documents\tugasakhirexp\keypadscele.asm</FILE><LINE>468</LINE></DELAY>
+  <WAIT_LCD><FILE>D:\My Documents\tugasakhirexp\keypadscele.asm</FILE><LINE>489</LINE></WAIT_LCD>
+  <ONE><FILE>D:\My Documents\tugasakhirexp\keypadscele.asm</FILE><LINE>580</LINE></ONE>
+  <TWO><FILE>D:\My Documents\tugasakhirexp\keypadscele.asm</FILE><LINE>583</LINE></TWO>
+  <THREE><FILE>D:\My Documents\tugasakhirexp\keypadscele.asm</FILE><LINE>586</LINE></THREE>
+  <FOUR><FILE>D:\My Documents\tugasakhirexp\keypadscele.asm</FILE><LINE>589</LINE></FOUR>
+  <FIVE><FILE>D:\My Documents\tugasakhirexp\keypadscele.asm</FILE><LINE>592</LINE></FIVE>
+  <SIX><FILE>D:\My Documents\tugasakhirexp\keypadscele.asm</FILE><LINE>595</LINE></SIX>
+  <SEVEN><FILE>D:\My Documents\tugasakhirexp\keypadscele.asm</FILE><LINE>598</LINE></SEVEN>
+  <EIGHT><FILE>D:\My Documents\tugasakhirexp\keypadscele.asm</FILE><LINE>601</LINE></EIGHT>
+  <NINE><FILE>D:\My Documents\tugasakhirexp\keypadscele.asm</FILE><LINE>604</LINE></NINE>
+  <ZERO><FILE>D:\My Documents\tugasakhirexp\keypadscele.asm</FILE><LINE>607</LINE></ZERO>
+  <UPKEY><FILE>D:\My Documents\tugasakhirexp\keypadscele.asm</FILE><LINE>610</LINE></UPKEY>
+  <DOWNKEY><FILE>D:\My Documents\tugasakhirexp\keypadscele.asm</FILE><LINE>613</LINE></DOWNKEY>
+  <RIGHTKEY><FILE>D:\My Documents\tugasakhirexp\keypadscele.asm</FILE><LINE>616</LINE></RIGHTKEY>
+  <LEFTKEY><FILE>D:\My Documents\tugasakhirexp\keypadscele.asm</FILE><LINE>619</LINE></LEFTKEY>
+  <ENTER><FILE>D:\My Documents\tugasakhirexp\keypadscele.asm</FILE><LINE>622</LINE></ENTER>
+  <CLEARKEY><FILE>D:\My Documents\tugasakhirexp\keypadscele.asm</FILE><LINE>625</LINE></CLEARKEY>
+  <NEXT><FILE>D:\My Documents\tugasakhirexp\keypadscele.asm</FILE><LINE>628</LINE></NEXT>
+  <message><FILE>D:\My Documents\tugasakhirexp\keypadscele.asm</FILE><LINE>631</LINE></message>
+ </LABELS>
+</ASSEMBLER_INFO>
