@@ -35,8 +35,6 @@
 	ldi temp, 1
 	mov gameStarted, temp
 	rjmp GAME_START
-.org 0x00D
-	rjmp START
 
 START:
 	ldi temp,low(RAMEND) ; Set stack pointer to -
@@ -71,14 +69,8 @@ LOADBYTE:
 	tst	r0			; Check if we've reached the end of the message
 	breq WAIT		; If so, wait
 	cpi r20, 0x2C	; Check if we've met a comma char
-	breq CHANGE
+	breq CHANGE_ext
 	
-	ldi temp, 4
-	cp gameStarted, temp
-	breq PREP_PRINT_SMILEY
-	cpi r20, $2E
-	breq PRINT_BOX
-PREP_PRINT_SMILEY:
 	cpi r20, $2E
 	breq PRINT_SMILEY
 
@@ -88,19 +80,28 @@ PREP_PRINT_SMILEY:
 	brne LOADBYTE
 		
 PRINT_SMILEY:
+	ldi temp, 4
+	cp gameStarted, temp
+	brne PRINT_SMILEY_NOT_WIN
 	cp boxCounter, choosenBox
 	brne PRINT_BOX_NOT_WIN
 
 PRINT_SMILEY_NOT_WIN:
+	ldi temp, 1
+	cp gameStarted, temp
+	breq PRINT_BOX_NOT_WIN
+	ldi temp, 3
+	cp gameStarted, temp
+	breq PRINT_BOX_NOT_WIN
+	ldi temp, 2
+	cp gameStarted, temp
+	breq PRINT_BOX_NOT_WIN
 	ldi A, $C2
 	rcall WRITE_TEXT
 	adiw ZL,1		; Increase Z registers
 	brne LOADBYTE
 
 PRINT_BOX:
-	ldi temp, 4
-	cp gameStarted, temp
-	brne PRINT_BOX_NOT_WIN
 	cp smileyBox, boxCounter
 	breq PRINT_SMILEY
 
@@ -142,15 +143,8 @@ PRINT_BOX_OPENED:
 	adiw ZL,1		; Increase Z registers
 	brne LOADBYTE	
 
-CHANGE:
-	cbi PORTA,1	; CLR RS
-	ldi PB,0xC0	; MOV DATA,0x38 --> 8bit, 2line, 5x7
-	out PORTB,PB
-	sbi PORTA,0	; SETB EN
-	cbi PORTA,0	; CLR EN
-	rcall WAIT_LCD
-	adiw ZL,1
-	rjmp LOADBYTE
+CHANGE_ext:
+	rjmp CHANGE
 
 WAIT:
 	ldi temp, 3
@@ -165,9 +159,12 @@ WAIT:
 	rjmp LOADBYTE
 
 NOT_FALSE:
+	ldi temp, 5
+	cp gameStarted, temp
+	breq GAME_START_ext
 	ldi temp, 4
 	cp gameStarted, temp
-	breq GAME_START
+	breq GAME_WIN
 	ldi temp, 2
 	cp gameStarted, temp
 	brne NOT_OVER
@@ -191,6 +188,9 @@ NOT_OVER:
 	cpi temp, 2<<1 ; third box
 	breq CHOOSEN3
 	rjmp WAIT
+
+GAME_START_ext:
+	rjmp GAME_START
 
 CHOOSEN1:
 	ldi temp, 1
@@ -228,12 +228,20 @@ CHOOSEN3:
 	breq FOUND_SMILEY
 	rjmp FALSE_ANSWER
 
-
-
 FOUND_SMILEY:
 	ldi temp, 1
 	add score, temp
 	ldi temp, 4
+	mov gameStarted, temp
+	rcall INIT_LCD
+	ldi ZH,high(2*gamescreen) ; Load high part of byte address into ZH
+	ldi ZL,low(2*gamescreen) ; Load low part of byte address into ZL
+	ldi temp,1
+	mov boxCounter, temp
+	rjmp LOADBYTE
+
+GAME_WIN:
+	ldi temp, 5
 	mov gameStarted, temp
 	rcall INIT_LCD
 	ldi ZH,high(2*gamewinscreen) ; Load high part of byte address into ZH
@@ -277,8 +285,15 @@ FALSE_ANSWER:
 	ldi ZL,low(2*gamemissedbox) ; Load low part of byte address into ZL
 	rjmp LOADBYTE
 
-RESET_BOX:
-	ldi temp, 0
+CHANGE:
+	cbi PORTA,1	; CLR RS
+	ldi PB,0xC0	; MOV DATA,0x38 --> 8bit, 2line, 5x7
+	out PORTB,PB
+	sbi PORTA,0	; SETB EN
+	cbi PORTA,0	; CLR EN
+	rcall WAIT_LCD
+	adiw ZL,1
+	rjmp LOADBYTE
 
 EN_INT: ;enable intterupt
 	ldi temp, 0b10000000  ;1<<INT0 | 1<<INT1 | 1<<INT2

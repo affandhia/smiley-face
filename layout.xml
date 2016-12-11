@@ -12,39 +12,6 @@
       <Target>ATMega128</Target>
    </General>
    <Views>
-      <LCD>
-         <Name>LCD1</Name>
-         <Position>
-            <top>4294967294</top>
-            <left>4294967295</left>
-         </Position>
-         <DisplayConfig>
-            <columns>16</columns>
-            <rows>2</rows>
-            <bkColor>0xc1fa9d</bkColor>
-            <size>2</size>
-         </DisplayConfig>
-         <PortMapping>
-            <DataPort>
-               <Port>PORTB</Port>
-               <HighNibble>bit 4..7</HighNibble>
-               <LowNibble>N.C.</LowNibble>
-            </DataPort>
-            <EnablePin>
-               <Port>PORTA</Port>
-               <Bit>0</Bit>
-            </EnablePin>
-            <RW_Pin>
-               <WriteOnly>0</WriteOnly>
-               <Port>PORTA</Port>
-               <Bit>2</Bit>
-            </RW_Pin>
-            <RS_Pin>
-               <Port>PORTA</Port>
-               <Bit>1</Bit>
-            </RS_Pin>
-         </PortMapping>
-      </LCD>
       <Buttons>
          <Name>Buttons1</Name>
          <Position>
@@ -94,7 +61,7 @@
          </Position>
          <Config index="0">
             <Color>Blue</Color>
-            <Name>Timer</Name>
+            <Name></Name>
             <PortPin>
                <Port>PORTC</Port>
                <Bit>0</Bit>
@@ -103,7 +70,7 @@
          </Config>
          <Config index="1">
             <Color>Green</Color>
-            <Name></Name>
+            <Name>T</Name>
             <PortPin>
                <Port>PORTC</Port>
                <Bit>1</Bit>
@@ -112,7 +79,7 @@
          </Config>
          <Config index="2">
             <Color>Green</Color>
-            <Name></Name>
+            <Name>I</Name>
             <PortPin>
                <Port>PORTC</Port>
                <Bit>2</Bit>
@@ -121,7 +88,7 @@
          </Config>
          <Config index="3">
             <Color>Yellow</Color>
-            <Name></Name>
+            <Name>M</Name>
             <PortPin>
                <Port>PORTC</Port>
                <Bit>3</Bit>
@@ -130,7 +97,7 @@
          </Config>
          <Config index="4">
             <Color>Yellow</Color>
-            <Name></Name>
+            <Name>E</Name>
             <PortPin>
                <Port>PORTC</Port>
                <Bit>4</Bit>
@@ -139,7 +106,7 @@
          </Config>
          <Config index="5">
             <Color>Yellow</Color>
-            <Name></Name>
+            <Name>R</Name>
             <PortPin>
                <Port>PORTC</Port>
                <Bit>5</Bit>
@@ -157,7 +124,7 @@
          </Config>
          <Config index="7">
             <Color>Red</Color>
-            <Name></Name>
+            <Name>LOSE</Name>
             <PortPin>
                <Port>PORTC</Port>
                <Bit>7</Bit>
@@ -165,5 +132,38 @@
             <Invert>0</Invert>
          </Config>
       </LEDs>
+      <LCD>
+         <Name>LCD1</Name>
+         <Position>
+            <top>4294967294</top>
+            <left>4294967295</left>
+         </Position>
+         <DisplayConfig>
+            <columns>16</columns>
+            <rows>2</rows>
+            <bkColor>0xc1fa9d</bkColor>
+            <size>2</size>
+         </DisplayConfig>
+         <PortMapping>
+            <DataPort>
+               <Port>PORTB</Port>
+               <HighNibble>bit 4..7</HighNibble>
+               <LowNibble>N.C.</LowNibble>
+            </DataPort>
+            <EnablePin>
+               <Port>PORTA</Port>
+               <Bit>0</Bit>
+            </EnablePin>
+            <RW_Pin>
+               <WriteOnly>0</WriteOnly>
+               <Port>PORTA</Port>
+               <Bit>2</Bit>
+            </RW_Pin>
+            <RS_Pin>
+               <Port>PORTA</Port>
+               <Bit>1</Bit>
+            </RS_Pin>
+         </PortMapping>
+      </LCD>
    </Views>
 </HAPSIM>
