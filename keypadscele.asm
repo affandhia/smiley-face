@@ -5,9 +5,9 @@
 .def INDA = r18	; values sent to PORTA
 .def A  = r19   ; value to be printed
 
-; PORTD.0 as EN of LCD
-; PORTD.1 as RS of LCD
-; PORTD.2 as RW of LCD
+; PORTD.4 as EN of LCD
+; PORTD.5 as RS of LCD
+; PORTD.6 as RW of LCD
 ; PORTB used by Keypad
 ; PORTA as INSTRUCTION OR DATA to LCD
 ; PORTD for LED
