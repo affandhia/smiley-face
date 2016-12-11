@@ -1,0 +1,14 @@
+AvrBuild.bat
+*.tmp
+*.aps
+*.aws
+*.hex
+*.map
+*.obj
+
+!spec/*.tmp
+!spec/*.aps
+!spec/*.aws
+!spec/*.hex
+!spec/*.map
+!spec/*.obj

@@ -60,21 +60,20 @@ MAIN:
 	out	DDRA,temp	; Set port A as output
 	out	DDRC,temp	; Set port B as output
 
-;	ldi	ZH,high(2*message)	; Load high part of byte address into ZH
-;	ldi	ZL,low(2*message)	; Load low part of byte address into ZL
+	ldi	ZH,high(2*message)	; Load high part of byte address into ZH
+	ldi	ZL,low(2*message)	; Load low part of byte address into ZL
 
-;LOADBYTE:
-;	lpm				; Load byte from program memory into r0
+LOADBYTE:
+	lpm				; Load byte from program memory into r0
 
-;	tst	r0			; Check if we've reached the end of the message
-;	breq quit		; If so, quit
+	tst	r0			; Check if we've reached the end of the message
+	breq quit		; If so, quit
+	mov A, r0		; Put the character onto Port B
+	rcall WRITE_TEXT
+	adiw ZL,1		; Increase Z registers
+	rjmp LOADBYTE
 
-;	mov A, r0		; Put the character onto Port B
-;	rcall WRITE_TEXT
-;	adiw ZL,1		; Increase Z registers
-;	rjmp LOADBYTE
-
-;QUIT:	;rjmp QUIT
+QUIT:	rjmp QUIT
 	SEI 
 	CALL    START_TIMER	  
 NEED_UPDATE:	
