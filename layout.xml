@@ -54,7 +54,7 @@
          <Config index="0">
             <Name>First Box</Name>
             <PortPin>
-               <Port>PORTE</Port>
+               <Port>PORTD</Port>
                <Bit>0</Bit>
             </PortPin>
             <Invert>0</Invert>

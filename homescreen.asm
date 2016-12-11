@@ -18,6 +18,13 @@
 ; PORTA.0 as EN
 ; PORTA.1 as RS
 ; PORTA.2 as RW	
+
+; Game state on gameStarted
+; 0 : game is not started
+; 1 : game is running
+; 2 : game is over
+; 3 : user wrongly choosed the box
+; 4 : user win the game (found the smiley)
 	
 .org 0x000
 	rjmp START
@@ -65,16 +72,15 @@ LOADBYTE:
 	breq WAIT		; If so, wait
 	cpi r20, 0x2C	; Check if we've met a comma char
 	breq CHANGE
-
-	ldi temp, 1
+	
+	ldi temp, 4
 	cp gameStarted, temp
-	breq PREP_PRINT_BOX
-
-	cpi r20, $2E
-	breq PRINT_SMILEY
-PREP_PRINT_BOX:
+	breq PREP_PRINT_SMILEY
 	cpi r20, $2E
 	breq PRINT_BOX
+PREP_PRINT_SMILEY:
+	cpi r20, $2E
+	breq PRINT_SMILEY
 
 	mov A, r20		; Put the character onto Port B
 	rcall WRITE_TEXT
@@ -82,20 +88,32 @@ PREP_PRINT_BOX:
 	brne LOADBYTE
 		
 PRINT_SMILEY:
+	cp boxCounter, choosenBox
+	brne PRINT_BOX_NOT_WIN
+
+PRINT_SMILEY_NOT_WIN:
 	ldi A, $C2
 	rcall WRITE_TEXT
 	adiw ZL,1		; Increase Z registers
 	brne LOADBYTE
 
 PRINT_BOX:
+	ldi temp, 4
+	cp gameStarted, temp
+	brne PRINT_BOX_NOT_WIN
+	cp smileyBox, boxCounter
+	breq PRINT_SMILEY
+
+PRINT_BOX_NOT_WIN:
 	ldi temp, 1
-	add boxCounter, temp
+	out PORTC, choosenBox
 	cpi boxCounter, 1
 	breq PRINT_BOX_1
-	cpi boxCounter, 2
+	cpi boxCounter, 1<<1
 	breq PRINT_BOX_2
-	cpi boxCounter, 3
+	cpi boxCounter, 2<<1
 	breq PRINT_BOX_3
+
 	rjmp PRINT_BOX_CLOSED
 	
 PRINT_BOX_1:		
@@ -112,11 +130,13 @@ PRINT_BOX_3:
 	rjmp PRINT_BOX_CLOSED
 
 PRINT_BOX_CLOSED:
+	lsl boxCounter
 	ldi A, $FF
 	rcall WRITE_TEXT
 	adiw ZL,1		; Increase Z registers
 	brne LOADBYTE	
-PRINT_BOX_OPENED: 
+PRINT_BOX_OPENED:
+	lsl boxCounter 
 	ldi A, $DB
 	rcall WRITE_TEXT
 	adiw ZL,1		; Increase Z registers
@@ -141,10 +161,13 @@ WAIT:
 	rcall INIT_LCD
 	ldi ZH,high(2*gamescreen) ; Load high part of byte address into ZH
 	ldi ZL,low(2*gamescreen) ; Load low part of byte address into ZL
-	ldi boxCounter, 0 ; for box counter
+	ldi boxCounter, 1 ; for box counter
 	rjmp LOADBYTE
 
 NOT_FALSE:
+	ldi temp, 4
+	cp gameStarted, temp
+	breq GAME_START
 	ldi temp, 2
 	cp gameStarted, temp
 	brne NOT_OVER
@@ -205,10 +228,17 @@ CHOOSEN3:
 	breq FOUND_SMILEY
 	rjmp FALSE_ANSWER
 
+
+
 FOUND_SMILEY:
 	ldi temp, 1
 	add score, temp
-	rjmp GAME_START
+	ldi temp, 4
+	mov gameStarted, temp
+	rcall INIT_LCD
+	ldi ZH,high(2*gamewinscreen) ; Load high part of byte address into ZH
+	ldi ZL,low(2*gamewinscreen) ; Load low part of byte address into ZL
+	rjmp LOADBYTE
 
 GAME_OVER:
 	rcall INIT_LCD
@@ -232,6 +262,9 @@ GAME_START:
 	ldi temp, 2 ; bug: it gives 1 to temp register
 	ldi A, 2  ; but on this A register, it gives 2, so we use this one
 	mov boxLeft, A ; for box counter
+	ldi temp,1
+	mov boxCounter, temp
+	mov gameStarted, temp
 	rjmp LOADBYTE
 
 FALSE_ANSWER:
@@ -249,7 +282,6 @@ RESET_BOX:
 
 EN_INT: ;enable intterupt
 	ldi temp, 0b10000000  ;1<<INT0 | 1<<INT1 | 1<<INT2
-	out PORTC, temp
 	out GICR,temp
 	ldi temp,0b00001010
 	out MCUCR,temp
@@ -335,7 +367,7 @@ gamescreen:
 	.db 0
 
 gameoverscreen:
-	.db "Game Over,   ___You LOSE!"
+	.db "No More Choice,   ___You LOSE!"
 	.db 0
 
 gamemissedbox:
@@ -343,5 +375,5 @@ gamemissedbox:
 	.db 0
 
 gamewinscreen:
-	.db "You found it!, Congrats!"
+	.db "You found it . !,Take d' next one"
 	.db 0
