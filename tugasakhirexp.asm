@@ -13,6 +13,8 @@
 .def PB = r18 ; for PORTBA
 .def A  = r19
 .def boxCounter = r23
+.def timerTemp = r24
+.def timerCounter = r25
 
 ; PORTBA as DATA
 ; PORTD,4 as EN
@@ -38,6 +40,36 @@
 	mov gameStarted,temp
 	rjmp GAME_START
 
+.org $012
+	rjmp ISR_TOV0
+
+.org $026
+	;rjmp ISR_TCOM0
+
+; TIMER INTERRUPT ==================
+ISR_TOV0:
+
+	ldi timerTemp, 1
+	add timerCounter, timerTemp
+	in timerTemp,PORTC
+	tst timerTemp
+	brne ISR_TOV0_NEXT_STEP
+	ldi timerTemp, 0
+	out TIMSK, timerTemp
+	jmp GAME_OVER
+ISR_TOV0_NEXT_STEP:
+	cpi timerCounter, 5
+	brge DECREASE_TIME
+	reti
+
+DECREASE_TIME:
+	in timerTemp,PORTC	; read Port A
+	lsl timerTemp			; invert bits of timerTemp 
+	out PORTC,timerTemp	; write Port A
+	ldi timerCounter, 0
+	reti
+
+
 START_KEYPAD_ext:
 	jmp START_KEYPAD
 
@@ -47,19 +79,26 @@ START:
 	ldi temp,high(RAMEND)
 	out SPH,temp
 	
-	rcall INIT_LCD
-	rcall EN_INT
-
+	ldi r16,1<<CS02 ;| 1<<CS00	; prescales timer at clck/1024 (means slower) 
+	out TCCR0,r16				; set timer
+	ldi r16,(1<<TOV0)|(1<<OCF0)
+	out TIFR,r16		; Interrupt if overflow and compare true in T/C0
+	ldi r16,0b11111111
+	out OCR0,r16		; Set compared value
 	ldi temp,$ff
 	out DDRA,temp ; Set port A as output
 	out DDRB,temp ;
 	ldi temp,$00
 	out DDRC,temp
 	
+	rcall INIT_LCD
+	rcall EN_INT
+
 	ldi temp,0
 	mov gameStarted,temp
 	mov score,temp
 	ldi boxCounter,0 ; for box counter
+	ldi timerCounter, 0
 	ldi temp,2
 	mov boxLeft,temp
 
@@ -313,6 +352,12 @@ GAME_START:
 	ldi temp,1
 	mov boxCounter,temp
 	mov gameStarted,temp
+	
+	ldi temp, 0xff
+	out PORTC, temp
+	ldi temp, (1<<TOIE0);(1<<TOIE0)|(1<<OCIE0)
+	out TIMSK,temp		; Enable Timer/Counter0 overflow & compare int
+
 	rjmp LOADBYTE
 
 FALSE_ANSWER:
@@ -540,3 +585,6 @@ KeyTable:
 
 KeyProc:
 	ret
+
+
+
