@@ -1,25 +1,21 @@
 .include "m16def.inc"
 
 .def gameStarted = r15
-.def smileyBox = r14 ; --> means on box 3
+.def smileyBox = r14
 .def box1Opened = r13
 .def box2Opened = r12
 .def box3Opened = r11
 .def choosenBox = r10
 .def score = r9
 .def boxLeft = r8
-.def temp =r16 ; Define temporary variable
-.def EW = r17 ; for PORTAD
-.def PB = r18 ; for PORTBA
+.def temp = r16
+.def EW = r17 
+.def PB = r18 
 .def A  = r19
 .def boxCounter = r23
 .def timerTemp = r24
 .def timerCounter = r25
-
-; PORTBA as DATA
-; PORTD,4 as EN
-; PORTAD.1 as RS
-; PORTAD.2 as RW	
+	
 
 ; Game state on gameStarted
 ; 0 : game is not started
@@ -40,22 +36,22 @@
 	mov gameStarted,temp
 	rjmp GAME_START
 
+.org $00E
+	reti
+
 .org $012
 	rjmp ISR_TOV0
 
-.org $026
-	;rjmp ISR_TCOM0
-
 ; TIMER INTERRUPT ==================
 ISR_TOV0:
-
 	ldi timerTemp, 1
 	add timerCounter, timerTemp
 	in timerTemp,PORTC
 	tst timerTemp
 	brne ISR_TOV0_NEXT_STEP
-	ldi timerTemp, 0
-	out TIMSK, timerTemp
+
+	rcall STOP_TIMER0
+		
 	jmp GAME_OVER
 ISR_TOV0_NEXT_STEP:
 	cpi timerCounter, 5
@@ -63,36 +59,55 @@ ISR_TOV0_NEXT_STEP:
 	reti
 
 DECREASE_TIME:
-	in timerTemp,PORTC	; read Port A
-	lsl timerTemp			; invert bits of timerTemp 
-	out PORTC,timerTemp	; write Port A
+	in timerTemp,PORTC	; read Port C
+	lsl timerTemp			; shift left timer.
+	out PORTC,timerTemp	; write Port C
 	ldi timerCounter, 0
 	reti
 
+STOP_TIMER0:
+	ldi r16,0<<CS02 	
+	out TCCR0,r16	; set clock source
+	ret
 
-START_KEYPAD_ext:
+START_TIMER0:
+	ldi r16,1<<CS02
+	out TCCR0,r16	; set clock source
+	ret
+	
+START_KEYPAD_ext:	; branch extension
 	jmp START_KEYPAD
 
 START:
-	ldi temp,low(RAMEND) ; Set stack pointer to -
-	out SPL,temp ; -- last internal RAM location
+	; ******** Set stack pointer to last internal RAM location
+	ldi temp,low(RAMEND) 
+	out SPL,temp ; 
 	ldi temp,high(RAMEND)
 	out SPH,temp
+	; ********
 	
-	ldi r16,1<<CS02 ;| 1<<CS00	; prescales timer at clck/1024 (means slower) 
-	out TCCR0,r16				; set timer
-	ldi r16,(1<<TOV0)|(1<<OCF0)
-	out TIFR,r16		; Interrupt if overflow and compare true in T/C0
-	ldi r16,0b11111111
-	out OCR0,r16		; Set compared value
+	ldi temp, 1<<CS11	; set source clock prescales at clock/8
+	out TCCR1B,temp				; set timer
+	ldi temp,1<<TOV0 | 1<<OCF1B
+	out TIFR,temp		; Interrupt if overflow in Timer0 and compare Timer1 matched to T1B value
+	; ******** Set compared T1B value
+	ldi temp,0xf3
+	out OCR1BL,r16		
+	ldi temp,0xf2
+	out OCR1BH,r16
+	; ********
+	ldi temp, 1<<TOIE0 | 1<<OCIE1B
+	out TIMSK,temp		; Enable Timer0 and CompareT1B
+
 	ldi temp,$ff
-	out DDRA,temp ; Set port A as output
-	out DDRB,temp ;
+	out DDRA,temp ; Set port A as output LCD
+	out DDRC,temp ;	
 	ldi temp,$00
-	out DDRC,temp
+	out DDRB,temp
 	
 	rcall INIT_LCD
 	rcall EN_INT
+	rcall STOP_TIMER0
 
 	ldi temp,0
 	mov gameStarted,temp
@@ -101,6 +116,7 @@ START:
 	ldi timerCounter, 0
 	ldi temp,2
 	mov boxLeft,temp
+
 
 	ldi ZH,high(2*message) ; Load high part of byte address into ZH
 	ldi ZL,low(2*message) ; Load low part of byte address into ZL
@@ -138,6 +154,7 @@ PRINT_SMILEY_NOT_WIN:
 	ldi temp,2
 	cp gameStarted,temp
 	breq PRINT_BOX_NOT_WIN
+	lsl boxCounter
 	ldi A,$C2
 	rcall WRITE_TEXT
 	adiw ZL,1		; Increase Z registers
@@ -204,16 +221,19 @@ NOT_FALSE:
 	cp gameStarted,temp
 	brne NO_INPUT
 	jmp INPUT_NPM 
+GAME_WIN_ext:
+	jmp GAME_WIN
+
 NO_INPUT:
 	ldi temp,5
 	cp gameStarted,temp
 	breq GAME_START_ext
 	ldi temp,4
 	cp gameStarted,temp
-	breq GAME_WIN
+	breq GAME_WIN_ext
 	ldi temp,2
 	cp gameStarted,temp
-	breq SUBMIT_SCORE
+	breq SUBMIT_SCORE_ext
 	;rcall WAIT_LCD
 	;rcall WAIT_LCD
 	;rcall WAIT_LCD
@@ -233,17 +253,23 @@ NOT_OVER:
 	breq CHOOSEN2
 	cpi temp,2<<1 ; third box
 	breq CHOOSEN3
+	rcall START_TIMER0
 	rjmp WAIT
 
+SUBMIT_SCORE_ext:
+	jmp SUBMIT_SCORE
+
 GAME_START_ext:
-	rjmp GAME_START
+	jmp GAME_START
 
 CHOOSEN1:
 	ldi temp,1
 	cp box1Opened,temp
 	breq WAIT
-
+	
 	mov box1Opened,temp
+	
+	rcall STOP_TIMER0	
 
 	ldi temp,1
 	cp smileyBox,temp
@@ -257,6 +283,8 @@ CHOOSEN2:
 
 	mov box2Opened,temp
 
+	rcall STOP_TIMER0	
+
 	ldi temp,1<<1
 	cp smileyBox,temp
 	breq FOUND_SMILEY
@@ -265,14 +293,27 @@ CHOOSEN2:
 CHOOSEN3:
 	ldi temp,1
 	cp box3Opened,temp
-	breq WAIT
+	breq WAIT_ext
 
 	mov box3Opened,temp
+
+	rcall STOP_TIMER0	
 
 	ldi temp,2<<1
 	cp smileyBox,temp
 	breq FOUND_SMILEY
 	rjmp FALSE_ANSWER
+
+WAIT_ext:
+	jmp WAIT
+
+GAME_OVER:
+	rcall INIT_LCD
+	ldi ZH,high(2*gameoverscreen) ; Load high part of byte address into ZH
+	ldi ZL,low(2*gameoverscreen) ; Load low part of byte address into ZL
+	ldi temp,2			; 2 for game over
+	mov gameStarted,temp
+	rjmp LOADBYTE
 
 FOUND_SMILEY:
 	ldi temp,1
@@ -294,14 +335,6 @@ GAME_WIN:
 	ldi ZL,low(2*gamewinscreen) ; Load low part of byte address into ZL
 	rjmp LOADBYTE
 
-GAME_OVER:
-	rcall INIT_LCD
-	ldi ZH,high(2*gameoverscreen) ; Load high part of byte address into ZH
-	ldi ZL,low(2*gameoverscreen) ; Load low part of byte address into ZL
-	ldi temp,2			; 2 for game over
-	mov gameStarted,temp
-	rjmp LOADBYTE
-
 INIT_SCORE:
 	ldi A, 0x00
 	ST Z, A
@@ -321,6 +354,17 @@ NEW_SCORE:
 	ldi ZL,low(2*gamesubmitscore) ; Load low part of byte address into ZL
 	ldi temp,6			; 2 for game over
 	mov gameStarted,temp
+	ldi XH, 0x00
+	ldi XL, 0x60
+	ST X, score
+	ldi XH, 0x00
+	ldi XL, 0x6A
+LOOP_RENEW:
+	ldi temp, 0x00
+	ST X, temp
+	adiw X, 1
+	cpi XL, 0x74
+	brne LOOP_RENEW
 	rjmp LOADBYTE
 
 INPUT_NPM:
@@ -328,6 +372,9 @@ INPUT_NPM:
 	ldi XL, 0x6A
 LOOP_INPUT:
 	rcall START_KEYPAD
+	ldi temp, 0xf0
+	cp r0, temp
+	breq START_ext
 	mov A, r0
 	rcall WRITE_TEXT
 	ST X, r0
@@ -336,13 +383,43 @@ LOOP_INPUT:
 	brne LOOP_INPUT
 	rjmp START
 
+START_ext:
+	jmp START
+
 GAME_START:
 	ldi temp,0
 	mov box1Opened,temp
 	mov box2Opened,temp	
 	mov box3Opened,temp
-	ldi temp,2<< 0b1
-	mov smileyBox,temp	
+
+	in timerTemp, TCNT1H
+	andi timerTemp, 0x03
+	
+	cpi timerTemp, 0x00
+	breq SET_SMILEY_TO_1
+	cpi timerTemp, 0x01
+	breq SET_SMILEY_TO_2
+	cpi timerTemp, 0x02
+	breq SET_SMILEY_TO_3
+	brne SET_SMILEY_TO_DEFAULT
+SET_SMILEY_TO_1:
+	ldi temp,1
+	mov smileyBox,temp
+	rjmp GAME_START_NEXT
+SET_SMILEY_TO_2:
+	ldi temp,1<<1
+	mov smileyBox,temp
+	rjmp GAME_START_NEXT
+SET_SMILEY_TO_3:
+	ldi temp,2<<1
+	mov smileyBox,temp
+	rjmp GAME_START_NEXT
+SET_SMILEY_TO_DEFAULT:
+	ldi temp,1
+	mov smileyBox,temp
+	rjmp GAME_START_NEXT
+
+GAME_START_NEXT:
 	rcall INIT_LCD
 	ldi ZH,high(2*gamescreen) ; Load high part of byte address into ZH
 	ldi ZL,low(2*gamescreen) ; Load low part of byte address into ZL
@@ -352,11 +429,9 @@ GAME_START:
 	ldi temp,1
 	mov boxCounter,temp
 	mov gameStarted,temp
-	
 	ldi temp, 0xff
 	out PORTC, temp
-	ldi temp, (1<<TOIE0);(1<<TOIE0)|(1<<OCIE0)
-	out TIMSK,temp		; Enable Timer/Counter0 overflow & compare int
+	rcall START_TIMER0
 
 	rjmp LOADBYTE
 
@@ -579,9 +654,9 @@ NoKey:
 
 KeyTable:
 ;.DB 0xff,0xf0,0x0f,0x00 ; fourth column, keys left, right, down und up
-.DB 0x33,0x36,0x39,0x0B ; third column, keys #, 9, 6 und 3
+.DB 0x33,0x36,0x39,0xF0 ; third column, keys #, 9, 6 und 3
 .DB 0x32,0x35,0x38,0x30 ; second column, keys 0, 8, 5 und 2
-.DB 0x31,0x34,0x37,0x0A ; first column, keys *, 7, 4 und 1
+.DB 0x31,0x34,0x37,0xF0 ; first column, keys *, 7, 4 und 1
 
 KeyProc:
 	ret
